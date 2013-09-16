@@ -13,7 +13,6 @@ object Test {
     } yield ipAddress
 
     // block until the future is complete and print
-    Await.result(ipAddress, duration.Duration.Inf)
     println(Await.result(ipAddress, duration.Duration.Inf))
   }
 
