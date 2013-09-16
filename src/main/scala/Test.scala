@@ -9,11 +9,14 @@ object Test {
 
     val ipAddress: Future[String] = for {
       response  <- fetchURL("http://ip.jsontest.com/")
-      ipAddress <- toFuture(parseIpAddress(response))
-    } yield ipAddress
+    } yield parseIpAddress(response).get
 
     // block until the future is complete and print
-    println(Await.result(ipAddress, duration.Duration.Inf))
+    ipAddress.onComplete {
+      case Success(s) => println(s)
+      case Failure(ex) => println(ex.getMessage)
+    }
+    Await.ready(ipAddress, duration.Duration.Inf)
   }
 
   /** Parse a JSON string of the form `{ "ipAddress" : "1.2.3.4" }` */
@@ -23,12 +26,6 @@ object Test {
     val json = Json.parse(text)
     val ipAddress = (json \ "ip")
     Try(ipAddress.as[String])
-  }
-
-  /** Convert value `t`, which represents either an `A` or an exception, to a Future[A] */
-  def toFuture[A](t: Try[A]): Future[A] = t match {
-    case Success(s) => Future.successful(s)
-    case Failure(f) => Future.failed(f)
   }
 
   /** Fetch the body of the given URL via HTTP. */
