@@ -1,11 +1,16 @@
-scalaVersion := "2.10.2"
+name := "laws"
 
-libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-json" % "2.2.0-RC2",
-  "net.databinder.dispatch" %% "dispatch-core" % "0.11.0",
-  "org.slf4j" % "slf4j-nop" % "1.7.5",
-  "com.typesafe.akka" %% "akka-actor" % "2.2.1"
-)
+version := "1.0.0"
 
-resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
+// will be overriden by the Jenkins script
+scalaVersion := "2.11.2"
 
+(sourceGenerators in Test) <+= (sourceManaged in Test) map { dir =>
+  // This can call out to code organized in ./project/*.scala
+  // The generator will always be compiled and run with Scala 2.10.4,
+  // the version used by SBT 0.13.6
+  val file = dir / "demo" / "Test.scala"
+  // If desired, you could make these JUnit test cases.
+  IO.write(file, """object Test extends App { assert(Util.useful == 0, Util.useful) }""")
+  Seq(file)
+}
