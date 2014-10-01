@@ -1,0 +1,5 @@
+package laws
+
+object Instances {
+	val foo = @FOO@
+}

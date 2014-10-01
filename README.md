@@ -1,13 +1,30 @@
 ## Sample SBT project with generated test sources
 
+  - generators are in project sources (rather than in the project build)
+  - there are two phases of generation
+
 ```
-sbt test:run
+sbt clean "phase3/runMain Test42"
 [info] Loading global plugins from /Users/jason/.sbt/0.13/plugins
 [info] Loading project definition from /Users/jason/code/scratch3/project
 [info] Set current project to laws (in build file:/Users/jason/code/scratch3/)
-[info] Running Test
-[error] (run-main-0) java.lang.AssertionError: assertion failed: 42
-java.lang.AssertionError: assertion failed: 42
-	at scala.Predef$.assert(Predef.scala:165)
-	at Test$.delayedEndpoint$Test$1(Test.scala:1)
+[success] Total time: 0 s, completed Oct 1, 2014 12:06:16 PM
+[info] Updating {file:/Users/jason/code/scratch3/}phase1...
+[info] Resolving jline#jline;2.12 ...
+[info] Done updating.
+[info] Updating {file:/Users/jason/code/scratch3/}phase2...
+[info] Resolving phase1#phase1_2.11;0.1-SNAPSHOT ...
+[info] Compiling 3 Scala sources to /Users/jason/code/scratch3/phase1/target/scala-2.11/classes...
+[info] Resolving jline#jline;2.12 ...
+[info] Done updating.
+[info] Updating {file:/Users/jason/code/scratch3/}phase3...
+[info] Resolving jline#jline;2.12 ...
+[info] Done updating.
+here
+[info] Running laws.Laws /Users/jason/code/scratch3/phase2/target/scala-2.11/src_managed/main/laws/Instances.scala /Users/jason/code/scratch3/phase1/src/main/resources/replacements.tests
+[info] Compiling 2 Scala sources to /Users/jason/code/scratch3/phase2/target/scala-2.11/classes...
+[info] Running laws.Phase2 /Users/jason/code/scratch3/phase3/target/scala-2.11/src_managed/main
+[info] Compiling 1 Scala source to /Users/jason/code/scratch3/phase3/target/scala-2.11/classes...
+[info] Running Test42
+[success] Total time: 4 s, completed Oct 1, 2014 12:06:19 PM
 ```
